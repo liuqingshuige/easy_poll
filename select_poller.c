@@ -227,6 +227,7 @@ int SelectWaitEvent(SelectHandle handle, EasyEvent_t *events, int maxevents, int
 	if (ret < 0) /* 出错 */
 		return -1;
 
+	pthread_mutex_lock(&ep->mutex);
 	int i = 0, real_nums = 0;
 	for (; i < ev_size; i++)
 	{
@@ -245,7 +246,9 @@ int SelectWaitEvent(SelectHandle handle, EasyEvent_t *events, int maxevents, int
 				break;
 		}
 	}
+	pthread_mutex_unlock(&ep->mutex);
 
 	return real_nums;
 }
+
 
