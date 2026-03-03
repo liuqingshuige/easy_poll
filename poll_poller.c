@@ -205,7 +205,7 @@ int PollWaitEvent(PollHandle handle, EasyEvent_t *events, int maxevents, int tim
 	if (nums < 0) /* 出错 */
 		return -1;
 
-	for (i = 0; i < nums; i++)
+	for (i = 0; (i < ev_size) && (nums > 0); i++)
 	{
 		revent = 0;
 		fd = evs[i].fd;
@@ -226,9 +226,11 @@ int PollWaitEvent(PollHandle handle, EasyEvent_t *events, int maxevents, int tim
 			events[real_nums].fd = fd;
 			events[real_nums].retEvent = revent;
 			real_nums++;
+			nums--;
 		}
 	}
 
 	return real_nums;
 }
+
 
